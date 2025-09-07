@@ -1,0 +1,1 @@
+console.log("this file is gonna integrated in the users website to track")
