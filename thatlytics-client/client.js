@@ -1,14 +1,28 @@
-// console.log("this file is gonna integrated in the users website to track")
+async function getIPAddress() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error('Error fetching IP address:', error);
+    }
+}
+
+
 
 
 
 const logPageView = async () => {
 
+    let params = new URLSearchParams(document.location.search);
+    const ip = await getIPAddress();
+
     const dataToSend = {
         event_name: 'pageview',
         url: window.location.href,
-        timestamp: Date.now(),
-        properties: { "err": "none" }
+        source: params.get('utm_source'),
+        user_ip: ip,
+        browser: navigator.userAgent
     };
 
 
