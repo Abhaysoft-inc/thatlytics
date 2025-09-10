@@ -8,6 +8,9 @@ async function getIPAddress() {
     }
 }
 
+// group session by ip
+
+// if the user ip is same then you should group the session by session id
 
 
 
@@ -20,13 +23,14 @@ const logPageView = async () => {
     const dataToSend = {
         event_name: 'pageview',
         url: window.location.href,
-        source: params.get('utm_source'),
+        utm_source: params.get('utm_source'),
         user_ip: ip,
-        browser: navigator.userAgent
+        user_agent: navigator.userAgent,
+        referrer: params.get('referrer')
     };
 
 
-    const response = await fetch('http://localhost:3000/api/events/saveEvent', {
+    const response = await fetch('http://localhost:3000/events/recordEvent', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
