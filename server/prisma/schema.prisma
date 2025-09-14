@@ -16,7 +16,7 @@ datasource db {
 
 model Event {
   event_id   String   @id @default(uuid())
-  session_id String   @default(uuid())
+  session_id String
   event_name String
   url        String
   user_ip    String

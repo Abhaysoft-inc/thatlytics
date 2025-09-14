@@ -1,3 +1,7 @@
+window.addEventListener("load", (event) => {
+    logPageView();
+});
+
 async function getIPAddress() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
@@ -10,6 +14,26 @@ async function getIPAddress() {
 
 // group session by ip
 
+let session_id = '';
+
+const getSessionId = () => {
+    let sessionId = localStorage.getItem('session_id');
+
+
+    if (!sessionId) {
+        // generate new session id
+        sessionId = crypto.randomUUID();
+        localStorage.setItem('session_id', sessionId);
+        console.log("New session created:", sessionId);
+    } else {
+        console.log("Existing session:", sessionId);
+    }
+
+    return sessionId;
+};
+
+
+
 // if the user ip is same then you should group the session by session id
 
 
@@ -19,6 +43,7 @@ const logPageView = async () => {
 
     let params = new URLSearchParams(document.location.search);
     const ip = await getIPAddress();
+    const session_id = await getSessionId()
 
     const dataToSend = {
         event_name: 'pageview',
@@ -26,7 +51,8 @@ const logPageView = async () => {
         utm_source: params.get('utm_source'),
         user_ip: ip,
         user_agent: navigator.userAgent,
-        referrer: params.get('referrer')
+        referrer: params.get('referrer'),
+        session_id: session_id,
     };
 
 

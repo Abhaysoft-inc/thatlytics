@@ -5,7 +5,7 @@ const router = Router();
 const prisma = new PrismaClient()
 
 router.post('/recordEvent', async (req: Request, res: Response) => {
-    const { event_name, utm_source, referrer, user_agent, url, user_ip } = req.body;
+    const { event_name, utm_source, referrer, user_agent, url, user_ip, session_id } = req.body;
 
     const recordEvent = await prisma.event.create({
         data: {
@@ -14,7 +14,8 @@ router.post('/recordEvent', async (req: Request, res: Response) => {
             referrer,
             user_agent,
             url,
-            user_ip
+            user_ip,
+            session_id: session_id
         }
     });
 
