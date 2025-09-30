@@ -14,6 +14,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  userId   Int       @id @default(autoincrement())
+  name     String
+  email    String
+  password String
+  projects Project[]
+}
+
+model Project {
+  siteId      Int     @id @default(autoincrement())
+  projectName String
+  url         String?
+  owner       User    @relation(fields: [ownerId], references: [userId])
+  ownerId     Int
+}
+
 model Event {
   event_id   String   @id @default(uuid())
   session_id String
