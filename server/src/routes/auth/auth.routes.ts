@@ -71,7 +71,8 @@ router.post('/login', async (req, res) => {
             }
         });
         if (!isUserExists) return res.status(401).json({
-            error: "Email or Password is Incorrect!"
+            error: "Email or Password is Incorrect!",
+
         });
 
         const hashedPassword = isUserExists.password;
