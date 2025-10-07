@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { IoIosAnalytics } from "react-icons/io";
 import { toast, ToastContainer } from 'react-toastify';
+import Link from 'next/link';
 
 const LoginPage = () => {
 
@@ -80,6 +81,15 @@ const LoginPage = () => {
 
                         <button className='bg-gradient-to-b from-blue-800 via-blue-900 to-blue-800 text-white rounded text-center px-44 py-2.5 cursor-pointer' onClick={handleLogin}>Sign In</button>
 
+                    </div>
+
+                    <div className="text-center mt-4">
+                        <p className="text-gray-600">
+                            Don't have an account? 
+                            <Link href="/auth/signup" className="text-blue-600 hover:text-blue-800 ml-1 cursor-pointer">
+                                Sign Up
+                            </Link>
+                        </p>
                     </div>
 
                 </div>
