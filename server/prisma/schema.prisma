@@ -10,31 +10,28 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId   String    @unique @default(uuid())
+  userId   Int       @id @default(autoincrement())
   name     String
-  email    String    @unique
+  email    String
   password String
   projects Project[]
 }
 
 model Project {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  siteId      String  @unique @default(uuid())
+  siteId      Int     @id @default(autoincrement())
   projectName String
   url         String?
-  owner       User    @relation(fields: [ownerId], references: [id])
-  ownerId     String  @db.ObjectId
+  owner       User    @relation(fields: [ownerId], references: [userId])
+  ownerId     Int
 }
 
 model Event {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  event_id   String   @unique @default(uuid())
+  event_id   String   @id @default(uuid())
   session_id String
   event_name String
   url        String
