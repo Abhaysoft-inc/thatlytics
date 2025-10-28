@@ -40,14 +40,14 @@ const SignupPage = () => {
             toast.error('Passwords do not match');
             return false;
         }
-        
+
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
             toast.error('Please enter a valid email address');
             return false;
         }
-        
+
         return true;
     }
 
@@ -87,72 +87,72 @@ const SignupPage = () => {
     }
 
     return (
-        <div>
+        <div className='bg-black text-white'>
             <ToastContainer />
 
             <div className="flex justify-center h-screen items-center">
                 <div className="signup-form">
                     <div className="logo flex justify-center">
-                        <IoIosAnalytics size={60} color='blue' />
+                        <IoIosAnalytics size={60} color='green' />
                     </div>
                     <p className="text-center text-3xl mt-7">Join Thatlytics</p>
-                    <p className="text-center text-md mt-2 text-gray-700">Create your account to get started</p>
+                    <p className="text-center text-md mt-2 text-gray-500">Create your account to get started</p>
 
                     <div className="form-input mt-10">
                         <p className="">Full Name</p>
-                        <input 
-                            type="text" 
-                            name="name" 
-                            id="name" 
-                            placeholder='Enter your full name' 
-                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded' 
-                            value={formData.name} 
-                            onChange={handleChange} 
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder='Enter your full name'
+                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded'
+                            value={formData.name}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div className="form-input mt-5">
                         <p className="">Email</p>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            id="email" 
-                            placeholder='Enter your email address' 
-                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded' 
-                            value={formData.email} 
-                            onChange={handleChange} 
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder='Enter your email address'
+                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded'
+                            value={formData.email}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div className="form-input mt-5">
                         <p className="">Password</p>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            id="password" 
-                            placeholder='Enter your password (min 6 characters)' 
-                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded' 
-                            value={formData.password} 
-                            onChange={handleChange} 
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder='Enter your password (min 6 characters)'
+                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded'
+                            value={formData.password}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div className="form-input mt-5">
                         <p className="">Confirm Password</p>
-                        <input 
-                            type="password" 
-                            name="confirmPassword" 
-                            id="confirmPassword" 
-                            placeholder='Confirm your password' 
-                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded' 
-                            value={formData.confirmPassword} 
-                            onChange={handleChange} 
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            placeholder='Confirm your password'
+                            className='border border-gray-400 w-100 px-2 mt-2 py-1.5 rounded'
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div className="flex justify-center mt-6">
-                        <button 
-                            className='bg-gradient-to-b from-blue-800 via-blue-900 to-blue-800 text-white rounded text-center px-44 py-2.5 cursor-pointer' 
+                        <button
+                            className='bg-gradient-to-b from-green-800 via-green-900 to-green-800 text-white rounded text-center px-44 py-2.5 cursor-pointer'
                             onClick={handleSignup}
                         >
                             Sign Up
@@ -161,8 +161,8 @@ const SignupPage = () => {
 
                     <div className="text-center mt-4">
                         <p className="text-gray-600">
-                            Already have an account? 
-                            <Link href="/auth/login" className="text-blue-600 hover:text-blue-800 ml-1 cursor-pointer">
+                            Already have an account?
+                            <Link href="/auth/login" className="text-green-600 hover:text-green-800 ml-1 cursor-pointer">
                                 Sign In
                             </Link>
                         </p>

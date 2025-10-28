@@ -46,17 +46,19 @@ const LoginPage = () => {
 
 
     return (
-        <div>
+        <div className='bg-black text-white'>
+
             <ToastContainer />
 
             <div className="flex justify-center h-screen items-center">
+
                 <div className="login-form">
                     <div className="logo flex justify-center">
-                        <IoIosAnalytics size={60} color='blue' />
+                        <IoIosAnalytics size={60} color='green' />
 
                     </div>
                     <p className="text-center text-3xl mt-7">Welcome Back to Thatlytics</p>
-                    <p className="text-center text-md mt-2 text-gray-700">Enter your username and password to continue</p>
+                    <p className="text-center text-md mt-2 text-gray-500">Enter your email and password to continue</p>
 
                     <div className="form-input mt-10">
                         <p className="">Email</p>
@@ -79,14 +81,14 @@ const LoginPage = () => {
                     </div>
                     <div className="flex justify-center mt-6">
 
-                        <button className='bg-gradient-to-b from-blue-800 via-blue-900 to-blue-800 text-white rounded text-center px-44 py-2.5 cursor-pointer' onClick={handleLogin}>Sign In</button>
+                        <button className='bg-gradient-to-b from-green-800 via-green-900 to-green-800 text-white rounded text-center px-44 py-2.5 cursor-pointer' onClick={handleLogin}>Sign In</button>
 
                     </div>
 
                     <div className="text-center mt-4">
                         <p className="text-gray-600">
-                            Don't have an account? 
-                            <Link href="/auth/signup" className="text-blue-600 hover:text-blue-800 ml-1 cursor-pointer">
+                            Don't have an account?
+                            <Link href="/auth/signup" className="text-green-600 hover:text-green-800 ml-1 cursor-pointer">
                                 Sign Up
                             </Link>
                         </p>
