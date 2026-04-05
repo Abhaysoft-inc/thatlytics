@@ -3,7 +3,15 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
+        <div className='flex'>
+            <div className="banner">
+
+            </div>
+            <div className="signup-form">
+                <div className="border ">
+
+                </div>
+            </div>
 
         </div>
     )
