@@ -1,6 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+declare global {
+    namespace Express {
+        interface Request {
+            user?: string | jwt.JwtPayload;
+        }
+    }
+}
+
 const SECRET_KEY = process.env.JSON_WEB_TOKEN;
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {

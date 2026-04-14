@@ -4,12 +4,12 @@ import { prisma } from '../../config/database/index.js'
 import { InternalError } from "../../core/CustomError.js";
 import { ApiError } from "../../core/ApiError.js";
 import bcrypt from "bcrypt";
-import jwt, { JsonWebTokenError } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { sendEmail } from "../../services/emailService.js";
 
 const router = Router();
 
-const SECRET_KEY = process.env.JSON_WEB_TOKEN;
+const SECRET_KEY = process.env.JWT_SECRET;
 
 if (!SECRET_KEY) {
     throw new Error("JWT Token not found");
