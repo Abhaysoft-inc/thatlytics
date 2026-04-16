@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AUTH_API_BASE } from "../../lib/api";
 
 export default function Test2FAPage() {
     const [email, setEmail] = useState("");
@@ -12,12 +13,9 @@ export default function Test2FAPage() {
 
     const addLog = (msg: string) => setLogs((prev) => [...prev, msg]);
 
-    // Use your backend URL
-    const API_BASE = "http://localhost:3001/api/v1/auth";
-
     const handleGenerate = async () => {
         try {
-            const res = await fetch(`${API_BASE}/2fa/generate`, {
+            const res = await fetch(`${AUTH_API_BASE}/2fa/generate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
@@ -36,7 +34,7 @@ export default function Test2FAPage() {
 
     const handleVerify = async () => {
         try {
-            const res = await fetch(`${API_BASE}/2fa/verify`, {
+            const res = await fetch(`${AUTH_API_BASE}/2fa/verify`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, token: totpToken }),
@@ -59,7 +57,7 @@ export default function Test2FAPage() {
                 body.totpToken = totpToken;
             }
 
-            const res = await fetch(`${API_BASE}/login`, {
+            const res = await fetch(`${AUTH_API_BASE}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
