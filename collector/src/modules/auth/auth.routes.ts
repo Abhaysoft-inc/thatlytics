@@ -6,6 +6,7 @@ import { ApiError } from "../../core/ApiError.js";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken'
 import { sendEmail } from "../../services/emailService.js";
+import { generateSecret, getTOTPSetupDetails, validateTOTP } from "../../services/totpGenerator.js";
 
 const router = Router();
 
@@ -97,6 +98,29 @@ router.post('/login', async (req: Request, res: Response) => {
         if (!isMatch) return res.status(401).json({
             "message": "email or password is incorrect"
         });
+
+        // If Two-Factor Authentication is enabled, require the TOTP token
+        if (user.isTwoFactorEnabled) {
+            const { totpToken } = req.body;
+
+            if (!totpToken) {
+                // Initial login step requires TOTP
+                return res.status(202).json({
+                    message: "Two-Factor Authentication required",
+                    requires2FA: true,
+                    email: user.email // Or ideally, a temporary signed token
+                });
+            }
+
+            if (!user.twoFactorSecret) {
+                return res.status(500).json({ message: "2FA secret missing" });
+            }
+
+            const isValid = validateTOTP(user.email, user.twoFactorSecret, totpToken);
+            if (!isValid) {
+                return res.status(401).json({ message: "Invalid 2FA token" });
+            }
+        }
 
         const token = jwt.sign({
             id: user.id,
@@ -242,6 +266,70 @@ router.post('/reset-password/:token', async (req: Request, res: Response) => {
 
 //  2 fator auth
 
+
+// need to authenticate first and the get the email from the middleware ig
+// Generate 2FA Secret for the user
+router.post('/2fa/generate', async (req: Request, res: Response) => {
+    try {
+        // Typically extracting user ID from an authorized session/token
+        // Assuming `email` is sent in the body for now, replace with JWT data later
+        const { email } = req.body;
+
+        if (!email) return res.status(400).json({ error: "Email is required" });
+
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        const secret = generateSecret();
+        const { uri, secret: base32Secret } = getTOTPSetupDetails(user.email, secret);
+
+        // Store the secret temporally in the database but without enabling 2FA 
+        // until the user verifies holding the authenticator device
+        await prisma.user.update({
+            where: { email },
+            data: { twoFactorSecret: base32Secret }
+        });
+
+        // The URI is sent back so the frontend can generate a QR Code from it
+        return res.status(200).json({ uri, secret: base32Secret });
+    } catch (error) {
+        console.error("2FA generate error", error);
+        ApiError.handle(new InternalError(), res);
+    }
+});
+
+// Verify 2FA token
+router.post('/2fa/verify', async (req: Request, res: Response) => {
+    try {
+        const { email, token } = req.body;
+
+        if (!email || !token) {
+            return res.status(400).json({ error: "Email and token are required" });
+        }
+
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user || !user.twoFactorSecret) {
+            return res.status(400).json({ error: "User or 2FA secret not found" });
+        }
+
+        const isValid = validateTOTP(user.email, user.twoFactorSecret, token);
+
+        if (!isValid) {
+            return res.status(401).json({ error: "Invalid 2FA token" });
+        }
+
+        // Token is valid, enable 2FA
+        await prisma.user.update({
+            where: { email },
+            data: { isTwoFactorEnabled: true }
+        });
+
+        return res.status(200).json({ message: "2FA successfully enabled" });
+    } catch (error) {
+        console.error("2FA verify error", error);
+        ApiError.handle(new InternalError(), res);
+    }
+});
 
 
 export default router;
