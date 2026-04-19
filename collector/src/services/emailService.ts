@@ -1,6 +1,8 @@
+import { transporter } from "../config/mailingService.js";
 
-export function sendEmail(email: string, token: string): void {
+export function sendEmail(receipent: string, body: string): void {
 
-    console.log("email sent", token, email);
+    console.log("email sent", body, receipent);
+
 
 }
