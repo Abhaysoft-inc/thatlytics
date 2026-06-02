@@ -23,6 +23,28 @@ export const createProjectService = async (projectName: string, userId: string) 
     return project;
 };
 
+export const getProjectsForUserService = async (userId: string) => {
+    return prisma.project.findMany({
+        where: { userId },
+        orderBy: { updatedAt: 'desc' },
+        include: {
+            sources: true,
+        },
+    });
+};
+
+export const getProjectByIdForUserService = async (projectId: string, userId: string) => {
+    return prisma.project.findFirst({
+        where: {
+            id: projectId,
+            userId,
+        },
+        include: {
+            sources: true,
+        },
+    });
+};
+
 // add a source in the project
 export const addSourceToProjectService = async (
     projectId: string,

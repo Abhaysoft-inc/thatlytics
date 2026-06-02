@@ -9,7 +9,7 @@ declare global {
     }
 }
 
-const SECRET_KEY = process.env.JSON_WEB_TOKEN;
+const SECRET_KEY = process.env.JWT_SECRET;
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers["authorization"];
